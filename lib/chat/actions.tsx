@@ -529,7 +529,7 @@ export const AI = createAI<AIState, UIState>({
     const session = auth()
 
     if (session && session.user) {
-      const aiState = getAIState() as Chat
+      const aiState = getAIState() as { chat: Chat }
 
       if (aiState) {
         return getUIStateFromAIState(aiState)
@@ -573,7 +573,6 @@ export const AI = createAI<AIState, UIState>({
 })
 
 export const getUIStateFromAIState = (aiState: { chat: Chat }) => {
-  console.log('aiState: ', aiState.chat)
   return aiState.chat.messages
     .filter(message => message.role !== 'system')
     .map((message, index) => ({
