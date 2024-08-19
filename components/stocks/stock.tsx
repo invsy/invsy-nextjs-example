@@ -51,15 +51,15 @@ export function Stock({ props: { symbol, price, delta } }: { props: Stock }) {
         )} and ${format(xToDate(endHighlight), 'd LLL, yyyy')}`
       }
 
-      if (aiState.messages[aiState.messages.length - 1]?.id === id) {
+      if (aiState.chat.messages[aiState.chat.messages.length - 1]?.id === id) {
         setAIState({
           ...aiState,
-          messages: [...aiState.messages.slice(0, -1), message]
+          messages: [...aiState.chat.messages.slice(0, -1), message]
         })
       } else {
         setAIState({
           ...aiState,
-          messages: [...aiState.messages, message]
+          messages: [...aiState.chat.messages, message]
         })
       }
     }

@@ -1,7 +1,7 @@
 import 'server-only';
 
 import { createAI, createStreamableUI, createStreamableValue, getAIState, getMutableAIState, streamUI } from 'ai/rsc';
-import { createOpenAI } from '@ai-sdk/openai';
+import {openai} from '@ai-sdk/openai';
 
 import { BotCard, BotMessage, Purchase, spinner, Stock, SystemMessage } from '@/components/stocks';
 
@@ -113,11 +113,11 @@ async function submitUserMessage(content: string) {
   let textStream: undefined | ReturnType<typeof createStreamableValue<string>>
   let textNode: undefined | React.ReactNode
 
-  // TODO: remove as only needed for me
-  const openai = createOpenAI({
-    baseURL: process.env.OPENAI_API_BASE,
-    apiKey: process.env.OPENAI_API_KEY
-  })
+  // If using Cloudflare AI gateway
+  // const openai = createOpenAI({
+  //   baseURL: process.env.OPENAI_API_BASE,
+  //   apiKey: process.env.OPENAI_API_KEY
+  // })
 
   const result = await streamUI({
     model: openai('gpt-3.5-turbo'),
@@ -573,6 +573,11 @@ export const AI = createAI<AIState, UIState>({
 })
 
 export const getUIStateFromAIState = (aiState: { chat: Chat }) => {
+  // find messages where role === tool
+  const toolMessages = aiState.chat.messages.filter(
+    message => message.role === 'tool'
+  )
+
   return aiState.chat.messages
     .filter(message => message.role !== 'system')
     .map((message, index) => ({

@@ -6,14 +6,14 @@ export type Message = CoreMessage & {
 
 export interface Chat extends Record<string, any> {
   id: string
-  created_at: Date
   user_id: string
   messages: Message[]
   meta: {
     title: string
     path: string
     share_path?: string
-  }
+  },
+  created_at: Date
 }
 
 export type ServerActionResult<Result> = Promise<

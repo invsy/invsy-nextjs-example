@@ -26,10 +26,6 @@ interface SidebarItemProps {
 
 export function SidebarItem({ index, chat, children }: SidebarItemProps) {
   const pathname = usePathname()
-  console.log(chat)
-  console.log(chat)
-  console.log(chat)
-  console.log(chat)
 
   const isActive = pathname === chat.path
   const [newChatId, setNewChatId] = useLocalStorage('newChatId', null)

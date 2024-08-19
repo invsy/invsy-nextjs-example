@@ -10,7 +10,7 @@ import { invsy } from '@/lib/invsy-client';
 
 export async function createChat() {
   // TODO: should not need to pass in meta!!
-  return await invsy.create({
+  return await invsy.new({
     title: 'New chat',
     path: '/',
     share_path: '/'
@@ -18,15 +18,15 @@ export async function createChat() {
 }
 
 export async function updateChatMeta(chatId: string, meta: any) {
-  return await invsy.modify(chatId, meta)
+  return await invsy.updateMeta(chatId, meta)
 }
 
 export async function getChats() {
-  return  await invsy.list()
+  return await invsy.list()
 }
 
 export async function getChat(id: string) {
-  return await invsy.retrieve(id)
+  return await invsy.get(id)
 }
 
 export async function removeChat({ id, path }: { id: string; path: string }) {
@@ -81,12 +81,7 @@ export async function shareChat(id: string) {
 }
 
 export async function saveChat(chat: Chat) {
-  // we get the last message in the messages array
-  await invsy.update(chat.id, {
-    role: chat.messages[chat.messages.length - 1].role,
-    // TODO: make type any or ai sdk type
-    content: chat.messages[chat.messages.length - 1].content
-  })
+  await invsy.save(chat)
 }
 
 export async function refreshHistory(path: string) {
